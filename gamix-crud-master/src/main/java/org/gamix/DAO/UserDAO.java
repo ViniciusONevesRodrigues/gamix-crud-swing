@@ -10,6 +10,20 @@ public class UserDAO {
     private User vector[] = new User[10];
     private int userCount = 0;
     private static int idCount = 1;
+    private User logedUser;
+    
+    
+    
+    public User login(String usernameOrEmail, String password) {
+        for (User user : vector) {
+            if (user != null && (user.getUsername().equals(usernameOrEmail) || user.getEmail().equals(usernameOrEmail)) &&
+                user.getPasswordUser().getPassword().equals(password)) {
+            	logedUser = user;
+                return user;
+            }
+        }
+        return null; 
+    }
 
     public void insertUser(User user) {
         if (!isDuplicateUsername(user.getUsername()) && !isDuplicateEmail(user.getEmail())) {
@@ -41,17 +55,6 @@ public class UserDAO {
             }
         }
         return false;
-    }
-
-
-    public User login(String usernameOrEmail, String password) {
-        for (User user : vector) {
-            if (user != null && (user.getUsername().equals(usernameOrEmail) || user.getEmail().equals(usernameOrEmail)) &&
-                user.getPasswordUser().getPassword().equals(password)) {
-                return user;
-            }
-        }
-        return null; 
     }
 
     public void findAllUsers() {
