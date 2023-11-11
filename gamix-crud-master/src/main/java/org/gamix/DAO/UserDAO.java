@@ -10,32 +10,34 @@ public class UserDAO {
     private User vector[] = new User[10];
     private int userCount = 0;
     private static int idCount = 1;
-    private User logedUser;
-    
+    private User logedInUser;
     
     
     public User login(String usernameOrEmail, String password) {
         for (User user : vector) {
             if (user != null && (user.getUsername().equals(usernameOrEmail) || user.getEmail().equals(usernameOrEmail)) &&
                 user.getPasswordUser().getPassword().equals(password)) {
-            	logedUser = user;
+            	logedInUser = user;
                 return user;
             }
         }
         return null; 
     }
 
-    public void insertUser(User user) {
+    public int insertUser(User user) {
         if (!isDuplicateUsername(user.getUsername()) && !isDuplicateEmail(user.getEmail())) {
             if (userCount < vector.length) {
                 user.setId(idCount++);
                 vector[userCount++] = user;
                 System.out.println("Usuário cadastrado com sucesso.");
+                return 0;
             } else {
                 System.out.println("Limite de usuários atingido. Não é possível cadastrar mais usuários.");
+                return 1;
             }
         } else {
             System.out.println("Username ou e-mail já em uso. Tente novamente.");
+            return 2;
         }
     }
 
@@ -60,7 +62,7 @@ public class UserDAO {
     public void findAllUsers() {
     	boolean exist = false;
         for (User user : vector) {
-            if (user != null) {
+            if (user != null && user != logedInUser) {
             	System.out.println("\n" + "--------------------------------------");
                 System.out.println("ID: " + user.getId());
                 System.out.println("Username: " + user.getUsername());
@@ -79,7 +81,7 @@ public class UserDAO {
     public void findByEmail(String email) {
     	boolean exist = false;
         for (User user : vector) {
-            if (user != null && user.getEmail().equals(email)) {
+            if (user != null && user.getEmail().equals(email) && user != logedInUser) {
             	System.out.println("\n" + "--------------------------------------");
                 System.out.println("ID: " + user.getId());
                 System.out.println("Username: " + user.getUsername());
@@ -98,7 +100,7 @@ public class UserDAO {
     public void findByUsername(String username) {
     	boolean exist = false;
         for (User user : vector) {
-            if (user != null && user.getUsername().equals(username)) {
+            if (user != null && user.getUsername().equals(username) && user != logedInUser) {
             	System.out.println("\n" + "--------------------------------------");
                 System.out.println("ID: " + user.getId());
                 System.out.println("Username: " + user.getUsername());
@@ -131,7 +133,7 @@ public class UserDAO {
     public void deleteAccount(Integer id) {
     	boolean exist = false;
         for (int i = 0; i < userCount; i++) {
-            if (vector[i] != null && vector[i].getId().equals(id)) {
+            if (vector[i] != null && vector[i].getId().equals(id) && vector[i] == logedInUser) {
                 vector[i] = null;
                 exist = true;
                 System.out.println("Conta excluída com sucesso!");
