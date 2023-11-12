@@ -10,18 +10,34 @@ public class UserDAO {
     private User vector[] = new User[10];
     private int userCount = 0;
     private static int idCount = 1;
+    private User logedInUser;
+    
+    
+    public User login(String usernameOrEmail, String password) {
+        for (User user : vector) {
+            if (user != null && (user.getUsername().equals(usernameOrEmail) || user.getEmail().equals(usernameOrEmail)) &&
+                user.getPasswordUser().getPassword().equals(password)) {
+            	logedInUser = user;
+                return user;
+            }
+        }
+        return null; 
+    }
 
-    public void insertUser(User user) {
+    public int insertUser(User user) {
         if (!isDuplicateUsername(user.getUsername()) && !isDuplicateEmail(user.getEmail())) {
             if (userCount < vector.length) {
                 user.setId(idCount++);
                 vector[userCount++] = user;
                 System.out.println("Usuário cadastrado com sucesso.");
+                return 0;
             } else {
                 System.out.println("Limite de usuários atingido. Não é possível cadastrar mais usuários.");
+                return 1;
             }
         } else {
             System.out.println("Username ou e-mail já em uso. Tente novamente.");
+            return 2;
         }
     }
 
@@ -43,21 +59,10 @@ public class UserDAO {
         return false;
     }
 
-
-    public User login(String usernameOrEmail, String password) {
-        for (User user : vector) {
-            if (user != null && (user.getUsername().equals(usernameOrEmail) || user.getEmail().equals(usernameOrEmail)) &&
-                user.getPasswordUser().getPassword().equals(password)) {
-                return user;
-            }
-        }
-        return null; 
-    }
-
     public void findAllUsers() {
     	boolean exist = false;
         for (User user : vector) {
-            if (user != null) {
+            if (user != null && user != logedInUser) {
             	System.out.println("\n" + "--------------------------------------");
                 System.out.println("ID: " + user.getId());
                 System.out.println("Username: " + user.getUsername());
@@ -76,7 +81,7 @@ public class UserDAO {
     public void findByEmail(String email) {
     	boolean exist = false;
         for (User user : vector) {
-            if (user != null && user.getEmail().equals(email)) {
+            if (user != null && user.getEmail().equals(email) && user != logedInUser) {
             	System.out.println("\n" + "--------------------------------------");
                 System.out.println("ID: " + user.getId());
                 System.out.println("Username: " + user.getUsername());
@@ -95,7 +100,7 @@ public class UserDAO {
     public void findByUsername(String username) {
     	boolean exist = false;
         for (User user : vector) {
-            if (user != null && user.getUsername().equals(username)) {
+            if (user != null && user.getUsername().equals(username) && user != logedInUser) {
             	System.out.println("\n" + "--------------------------------------");
                 System.out.println("ID: " + user.getId());
                 System.out.println("Username: " + user.getUsername());
@@ -128,7 +133,7 @@ public class UserDAO {
     public void deleteAccount(Integer id) {
     	boolean exist = false;
         for (int i = 0; i < userCount; i++) {
-            if (vector[i] != null && vector[i].getId().equals(id)) {
+            if (vector[i] != null && vector[i].getId().equals(id) && vector[i] == logedInUser) {
                 vector[i] = null;
                 exist = true;
                 System.out.println("Conta excluída com sucesso!");
@@ -146,49 +151,49 @@ public class UserDAO {
         }
     }
     
-    public static boolean validateEmail(String email) {
+    public boolean validateEmail(String email) {
     	final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     	final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    public static boolean validateUrl(String icon) {
+    public boolean validateUrl(String icon) {
     	final String URL_PATTERN = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     	final Pattern pattern = Pattern.compile(URL_PATTERN);
     	Matcher matcher = pattern.matcher(icon);
     	return matcher.matches();
     }
-    public static boolean validatePasswordUppercase(String password) {
+    public boolean validatePasswordUppercase(String password) {
     	final String UPPERCASE_PATTERN = (".*[A-Z].*");
     	final Pattern pattern = Pattern.compile(UPPERCASE_PATTERN);
     	Matcher matcher = pattern.matcher(password);
     	return matcher.matches();
     }
-    public static boolean validatePasswordNumber(String password) {
+    public boolean validatePasswordNumber(String password) {
     	final String NUMBER_PATTERN = (".*\\d.*");
     	final Pattern pattern = Pattern.compile(NUMBER_PATTERN);
     	Matcher matcher = pattern.matcher(password);
     	return matcher.matches();
     }
-    public static boolean validatePasswordSpecialChar(String password) {
+    public boolean validatePasswordSpecialChar(String password) {
     	final String SPECIALCHAR_PATTERN = (".*[!@#$%^&*].*");
     	final Pattern pattern = Pattern.compile(SPECIALCHAR_PATTERN);
     	Matcher matcher = pattern.matcher(password);
     	return matcher.matches();
     }
-    public static boolean validatePasswordMinimumLength(String password) {
+    public boolean validatePasswordMinimumLength(String password) {
     	final String MINIMUMLENGTH_PATTERN = ".{8,}";
     	final Pattern pattern = Pattern.compile(MINIMUMLENGTH_PATTERN);
     	Matcher matcher = pattern.matcher(password);
     	return matcher.matches();
     }
-    public static boolean validateUsername(String username) {
+    public boolean validateUsername(String username) {
     	final String USERNAME_PATTERN = "^[a-zA-Z0-9_]+$";
     	final Pattern pattern = Pattern.compile(USERNAME_PATTERN);
     	Matcher matcher = pattern.matcher(username);
     	return matcher.matches();
     }
-    public static boolean validateIdInput(int id) {
+    public boolean validateIdInput(int id) {
         if (idCount -1 != 0 && id < idCount) {
             return true;
         } else {
