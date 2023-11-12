@@ -151,49 +151,49 @@ public class UserDAO {
         }
     }
     
-    public static boolean validateEmail(String email) {
+    public boolean validateEmail(String email) {
     	final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     	final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    public static boolean validateUrl(String icon) {
+    public boolean validateUrl(String icon) {
     	final String URL_PATTERN = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     	final Pattern pattern = Pattern.compile(URL_PATTERN);
     	Matcher matcher = pattern.matcher(icon);
     	return matcher.matches();
     }
-    public static boolean validatePasswordUppercase(String password) {
+    public boolean validatePasswordUppercase(String password) {
     	final String UPPERCASE_PATTERN = (".*[A-Z].*");
     	final Pattern pattern = Pattern.compile(UPPERCASE_PATTERN);
     	Matcher matcher = pattern.matcher(password);
     	return matcher.matches();
     }
-    public static boolean validatePasswordNumber(String password) {
+    public boolean validatePasswordNumber(String password) {
     	final String NUMBER_PATTERN = (".*\\d.*");
     	final Pattern pattern = Pattern.compile(NUMBER_PATTERN);
     	Matcher matcher = pattern.matcher(password);
     	return matcher.matches();
     }
-    public static boolean validatePasswordSpecialChar(String password) {
+    public boolean validatePasswordSpecialChar(String password) {
     	final String SPECIALCHAR_PATTERN = (".*[!@#$%^&*].*");
     	final Pattern pattern = Pattern.compile(SPECIALCHAR_PATTERN);
     	Matcher matcher = pattern.matcher(password);
     	return matcher.matches();
     }
-    public static boolean validatePasswordMinimumLength(String password) {
+    public boolean validatePasswordMinimumLength(String password) {
     	final String MINIMUMLENGTH_PATTERN = ".{8,}";
     	final Pattern pattern = Pattern.compile(MINIMUMLENGTH_PATTERN);
     	Matcher matcher = pattern.matcher(password);
     	return matcher.matches();
     }
-    public static boolean validateUsername(String username) {
+    public boolean validateUsername(String username) {
     	final String USERNAME_PATTERN = "^[a-zA-Z0-9_]+$";
     	final Pattern pattern = Pattern.compile(USERNAME_PATTERN);
     	Matcher matcher = pattern.matcher(username);
     	return matcher.matches();
     }
-    public static boolean validateIdInput(int id) {
+    public boolean validateIdInput(int id) {
         if (idCount -1 != 0 && id < idCount) {
             return true;
         } else {
