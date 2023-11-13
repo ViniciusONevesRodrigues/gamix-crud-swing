@@ -12,17 +12,82 @@ import org.gamix.models.User;
 
 public class Home {
 	
+	private Login loginInstance;
+	private UserProfile uProfileInstance;
 	private JFrame homeScreen;
+	private JLabel mGlasses, iUser, logout; 
 	private JTextField searchInput;
 	private JButton searchAll, searchBy;
+	private JToolBar nav;
 	private JList<String> userList;
 	private DefaultListModel<String> listModel;
 	
+	public void setHome(Login login, UserProfile profile) {
+		this.loginInstance = login;
+		this.uProfileInstance = profile;
+	}
+	
+	public ImageIcon resizeIcon(String imagePath, int width, int height) {
+	    ImageIcon originalIcon = new ImageIcon(imagePath);
+	    Image image = originalIcon.getImage();
+	    Image newimg = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+	    return new ImageIcon(newimg);
+	}
+	
+	
+	public JToolBar nav(UserDAO DAO) {
+		nav = new JToolBar();
+		mGlasses = new JLabel(resizeIcon("./resources/glass.png", 24, 24));
+		mGlasses.setBounds(140, 715, 0, 0);
+		iUser = new JLabel(resizeIcon("./resources/user.png", 24, 24));
+		iUser.setBounds(120, 715, 0, 0);
+		logout = new JLabel(resizeIcon("./resources/logout.png", 24, 24));
+		logout.setBounds(120, 715, 0, 0);
+		nav.setBounds(0, 715, 360, 50);
+		nav.setBackground(Color.decode("#4B6A8D"));
+		nav.setFloatable(false);
+		
+		MouseAdapter Ulistener = new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				uProfileInstance.uProfileScreen();
+				homeScreen.setVisible(false);
+			}
+		};
+		
+		iUser.addMouseListener(Ulistener);
+		
+		MouseAdapter Llistener = new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				loginInstance.loginScreen(DAO);
+				homeScreen.setVisible(false);
+			}
+		};
+		
+		logout.addMouseListener(Llistener);
+		
+		
+		nav.add(mGlasses);
+		nav.add(Box.createRigidArea(new Dimension(120, 0)));
+		nav.add(iUser);
+		nav.add(Box.createRigidArea(new Dimension(120, 0)));
+		nav.add(logout);
+		
+		return nav;
+	}
+	
 	public JTextField searchInput() {
-		searchInput = new JTextField();
+		searchInput = new JTextField("Procurar");
 		searchInput.setBounds(26, 50, 300, 36);
 		searchInput.setForeground(Color.WHITE);
 		searchInput.setBackground(Color.decode("#333333"));
+		searchInput.setCaretColor(Color.WHITE);
+		
+		MouseAdapter listener = new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				searchInput.setText("");
+			}
+		};
+		searchInput.addMouseListener(listener);
 		return searchInput;
 	}
  
@@ -123,6 +188,7 @@ public class Home {
 		homeScreen.getContentPane().add(searchInput());
 		homeScreen.getContentPane().add(searchAll(DAO));
 		homeScreen.getContentPane().add(searchBy(DAO));
+		homeScreen.getContentPane().add(nav(DAO));
 		
 		homeScreen.setVisible(true);
 	}

@@ -18,7 +18,7 @@ public class Register {
 	private JPasswordField passwordField;
 	private JButton registerButton;
 		
-	public void setLogin(Login login) {
+	public void setRegister(Login login) {
 	    this.loginInstance = login;
 	}
 	
@@ -60,6 +60,7 @@ public class Register {
 		usernameField.setBackground(Color.decode("#333333"));
 		usernameField.setForeground(Color.white);
 		usernameField.setBounds(26, 310, 307, 36);
+		usernameField.setCaretColor(Color.WHITE);
 		return usernameField;
 	}
 	public JTextField emailField() {
@@ -67,6 +68,7 @@ public class Register {
 		emailField.setBackground(Color.decode("#333333"));
 		emailField.setForeground(Color.white);
 		emailField.setBounds(26, 390, 307, 36);
+		emailField.setCaretColor(Color.WHITE);
 		return emailField;
 	}
 	public JPasswordField passwordField() {
@@ -74,6 +76,7 @@ public class Register {
 		passwordField.setBackground(Color.decode("#333333"));
 		passwordField.setForeground(Color.white);
 		passwordField.setBounds(26, 470, 307, 36);
+		passwordField.setCaretColor(Color.WHITE);
 		return passwordField;
 	}
 	

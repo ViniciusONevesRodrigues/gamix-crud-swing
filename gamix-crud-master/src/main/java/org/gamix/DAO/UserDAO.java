@@ -104,17 +104,12 @@ public class UserDAO {
         return allUsers;
     }
 
-    public void updateUser(Integer id, User partialUserInput) {
-    	boolean exist = false;
+    public void updateUser(User partialUserInput) {
         for (User user : vector) {
-            if (user != null && user.getId().equals(id)) {
+            if (user.equals(logedInUser)) {
                 user.partialUserInput(partialUserInput);
-                exist = true;
                 break;
             }
-        }
-        if (exist == false) {
-        	System.out.println("Não existe usuário com esse ID");
         }
     }
 

@@ -56,6 +56,7 @@ public class Login  {
 		usernameOrEmailField.setBackground(Color.decode("#333333"));
 		usernameOrEmailField.setForeground(Color.white);
 		usernameOrEmailField.setBounds(26, 350, 307, 36);
+		usernameOrEmailField.setCaretColor(Color.WHITE);
 		return usernameOrEmailField;
 	}
 	public JPasswordField passwordField() {
@@ -63,6 +64,7 @@ public class Login  {
 		passwordField.setBackground(Color.decode("#333333"));
 		passwordField.setForeground(Color.white);
 		passwordField.setBounds(26, 450, 307, 36);
+		passwordField.setCaretColor(Color.WHITE);
 		return passwordField;
 	}
 	public JButton loginButton(UserDAO DAO) {
