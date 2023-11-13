@@ -74,7 +74,7 @@ public class Login  {
 			public void actionPerformed(ActionEvent e) {
 				User loggedInUser = DAO.login(usernameOrEmailField.getText(), new String(passwordField.getPassword()));
 				if (loggedInUser != null) {
-					homeInstance.homeScreen();
+					homeInstance.homeScreen(DAO);
 				} else {
 					JOptionPane.showMessageDialog(null, "Login falhou. Verifique suas credenciais.");
 				}

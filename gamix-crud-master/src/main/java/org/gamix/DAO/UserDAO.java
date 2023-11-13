@@ -1,7 +1,7 @@
 package org.gamix.DAO;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
 import org.gamix.models.User;
 
@@ -11,6 +11,21 @@ public class UserDAO {
     private int userCount = 0;
     private static int idCount = 1;
     private User logedInUser;
+    
+    
+    public User teste() {
+        User userTest = new User();
+        userTest.setId(1); 
+        userTest.setUsername("UsuarioTeste");
+        userTest.setEmail("teste@example.com");
+        for (int i = 0; i < vector.length; i++) {
+            if (vector[i] == null) {
+                vector[i] = userTest;
+                break;
+            }
+        }
+        return userTest;
+    }
     
     
     public User login(String usernameOrEmail, String password) {
@@ -59,61 +74,34 @@ public class UserDAO {
         return false;
     }
 
-    public void findAllUsers() {
-    	boolean exist = false;
+    public List<User> findAllUsers() {
+    	List<User> allUsers = new ArrayList<>();	
         for (User user : vector) {
             if (user != null && user != logedInUser) {
-            	System.out.println("\n" + "--------------------------------------");
-                System.out.println("ID: " + user.getId());
-                System.out.println("Username: " + user.getUsername());
-                System.out.println("Email: " + user.getEmail());
-                System.out.println("Icon: " + user.getIcon());
-                System.out.println("Password: " + user.getPasswordUser().getPassword());
-                System.out.println("--------------------------------------");
-                exist = true;
+            	allUsers.add(user);
             } 
         }
-        if (!exist) {
-        	System.out.println("\nNenhum usuário registrado");
-        }
+        return allUsers;
     }
 
-    public void findByEmail(String email) {
-    	boolean exist = false;
+    public List<User> findByEmail(String email) {
+    	List<User> allUsers = new ArrayList<>();
         for (User user : vector) {
-            if (user != null && user.getEmail().equals(email) && user != logedInUser) {
-            	System.out.println("\n" + "--------------------------------------");
-                System.out.println("ID: " + user.getId());
-                System.out.println("Username: " + user.getUsername());
-                System.out.println("Email: " + user.getEmail());
-                System.out.println("Icon: " + user.getIcon());
-                System.out.println("Password: " + user.getPasswordUser().getPassword());
-                System.out.println("--------------------------------------");
-                exist = true;
+            if (user != null && user.getEmail().contains(email) && user != logedInUser) {
+            	allUsers.add(user);
             } 
         }
-        if (!exist) {
-        	System.out.println("\nEsse usuário não existe");
-        }
+        return allUsers;
     }
 
-    public void findByUsername(String username) {
-    	boolean exist = false;
+    public List<User> findByUsername(String username) {
+    	List<User> allUsers = new ArrayList<>();
         for (User user : vector) {
-            if (user != null && user.getUsername().equals(username) && user != logedInUser) {
-            	System.out.println("\n" + "--------------------------------------");
-                System.out.println("ID: " + user.getId());
-                System.out.println("Username: " + user.getUsername());
-                System.out.println("Email: " + user.getEmail());
-                System.out.println("Icon: " + user.getIcon());
-                System.out.println("Password: " + user.getPasswordUser().getPassword());
-                System.out.println("--------------------------------------");
-                exist = true;
+            if (user != null && user.getUsername().contains(username) && user != logedInUser) {
+            	allUsers.add(user);
             }
         }
-        if (!exist) {
-        	System.out.println("\nEsse usuário não existe");
-        }
+        return allUsers;
     }
 
     public void updateUser(Integer id, User partialUserInput) {
