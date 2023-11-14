@@ -7,13 +7,14 @@ public class Main {
     	UserDAO DAO = new UserDAO();
 	    Register register = new Register();
     	Home home = new Home();
-    	UserProfile profile = new UserProfile();
+    	Update update = new Update();
     	Login login = new Login(register, home);
+    	UserProfile profile = new UserProfile(update, login, home);
     	
     	register.setRegister(login);
     	home.setHome(login, profile);
+    	update.getUpdate(profile);
   	
-//    	login.loginScreen(DAO);
-    	home.homeScreen(DAO);
+    	login.loginScreen(DAO);
     }	
 }

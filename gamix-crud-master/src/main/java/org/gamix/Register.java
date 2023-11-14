@@ -132,6 +132,9 @@ public class Register {
 
 	            if (isValid) {
 	                int insertFeedback = DAO.insertUser(user);
+	                usernameField.setText("");
+	                emailField.setText("");
+	                passwordField.setText("");
 	                switch (insertFeedback) {
 	                case 0:
 	                	JOptionPane.showMessageDialog(null, "Cadastro completo com sucesso.");

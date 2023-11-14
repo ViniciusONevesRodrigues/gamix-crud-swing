@@ -6,6 +6,7 @@ public class User {
     private String username;
     private String email;
     private String icon;
+    private String bg;
     private PasswordUser passwordUser;
 
     public Integer getId() {
@@ -61,4 +62,12 @@ public class User {
             }
         }
     }
+
+	public String getBg() {
+		return bg;
+	}
+
+	public void setBg(String bg) {
+		this.bg = bg;
+	}
 }

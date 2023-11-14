@@ -12,20 +12,6 @@ public class UserDAO {
     private static int idCount = 1;
     private User logedInUser;
     
-    public User teste() {
-        User userTest = new User();
-        userTest.setId(1); 
-        userTest.setUsername("UsuarioTeste");
-        userTest.setEmail("teste@example.com");
-        for (int i = 0; i < vector.length; i++) {
-            if (vector[i] == null) {
-                vector[i] = userTest;
-                break;
-            }
-        }
-        return userTest;
-    }
-    
     
     public User login(String usernameOrEmail, String password) {
         for (User user : vector) {
@@ -43,14 +29,11 @@ public class UserDAO {
             if (userCount < vector.length) {
                 user.setId(idCount++);
                 vector[userCount++] = user;
-                System.out.println("Usuário cadastrado com sucesso.");
                 return 0;
             } else {
-                System.out.println("Limite de usuários atingido. Não é possível cadastrar mais usuários.");
                 return 1;
             }
         } else {
-            System.out.println("Username ou e-mail já em uso. Tente novamente.");
             return 2;
         }
     }
@@ -76,7 +59,7 @@ public class UserDAO {
     public List<User> findAllUsers() {
     	List<User> allUsers = new ArrayList<>();	
         for (User user : vector) {
-            if (user != null && user != logedInUser) {
+            if (user != null) {
             	allUsers.add(user);
             } 
         }
@@ -86,7 +69,7 @@ public class UserDAO {
     public List<User> findByEmail(String email) {
     	List<User> allUsers = new ArrayList<>();
         for (User user : vector) {
-            if (user != null && user.getEmail().contains(email) && user != logedInUser) {
+            if (user != null && user.getEmail().contains(email)) {
             	allUsers.add(user);
             } 
         }
@@ -96,7 +79,7 @@ public class UserDAO {
     public List<User> findByUsername(String username) {
     	List<User> allUsers = new ArrayList<>();
         for (User user : vector) {
-            if (user != null && user.getUsername().contains(username) && user != logedInUser) {
+            if (user != null && user.getUsername().contains(username)) {
             	allUsers.add(user);
             }
         }
@@ -112,13 +95,11 @@ public class UserDAO {
         }
     }
 
-    public void deleteAccount(Integer id) {
-    	boolean exist = false;
+    public void deleteAccount() {
         for (int i = 0; i < userCount; i++) {
-            if (vector[i] != null && vector[i].getId().equals(id) && vector[i] == logedInUser) {
+            if (vector[i] != null && vector[i] == logedInUser) {
                 vector[i] = null;
-                exist = true;
-                System.out.println("Conta excluída com sucesso!");
+                logedInUser = null;
                 userCount--;
           
                 for (int j = i; j < userCount; j++) {
@@ -128,9 +109,6 @@ public class UserDAO {
                 break;
             }
         }
-        if (exist == false) {
-        	System.out.println("Não existe usuário com esse ID");
-        }
     }
     
     public boolean validateEmail(String email) {
@@ -139,8 +117,8 @@ public class UserDAO {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    public boolean validateUrl(String icon) {
-    	final String URL_PATTERN = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+    public boolean validateDiretorio(String icon) {
+    	final String URL_PATTERN = "^.*\\.(jpg|jpeg|png|gif|bmp)$";
     	final Pattern pattern = Pattern.compile(URL_PATTERN);
     	Matcher matcher = pattern.matcher(icon);
     	return matcher.matches();
@@ -170,7 +148,7 @@ public class UserDAO {
     	return matcher.matches();
     }
     public boolean validateUsername(String username) {
-    	final String USERNAME_PATTERN = "^[a-zA-Z0-9_]+$";
+    	final String USERNAME_PATTERN = "^[a-zA-Z0-9_ ]+$";
     	final Pattern pattern = Pattern.compile(USERNAME_PATTERN);
     	Matcher matcher = pattern.matcher(username);
     	return matcher.matches();

@@ -88,7 +88,7 @@ public class Home {
 		
 		MouseAdapter listener = new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				if (e.getButton()==1) {
+				if (e.getButton()==1 && searchInput.getText().equals("Procurar")) {
 					searchInput.setText("");
 				}
 			}
@@ -98,7 +98,6 @@ public class Home {
 	}
  
 	public JButton searchAll(UserDAO DAO) {
-		DAO.teste();
 		searchAll = new JButton("Buscar Todos");
 		searchAll.setBounds(26, 90, 150, 44);
 		searchAll.setBackground(Color.decode("#68589D"));
@@ -110,7 +109,6 @@ public class Home {
         userList.setBackground(Color.decode("#1C2034"));
         userList.setForeground(Color.WHITE);
         userList.setFont(new Font("Roboto", Font.BOLD, 14));
-        userList.setToolTipText("html");
         
         JScrollPane scrollPane = new JScrollPane(userList);
         scrollPane.setBounds(26, 150, 300, 500);
@@ -122,14 +120,26 @@ public class Home {
 				
 				List<User> allUsers = DAO.findAllUsers();
 				for (User user : allUsers) {
-					String userInfo = 
-						    "<html><hr>" +
-						    	 "ID: " + user.getId() + "<br>" +
-						    	 "Nome: " + user.getUsername() + "<br>" +
-						    	 "Email: " + user.getEmail() + "<br>" +
-						    "<hr></html>";
-					
-					listModel.addElement(userInfo);
+					int maxLength;
+					if (user.getUsername().length() > user.getEmail().length()) {
+						int userBigger = user.getUsername().length();
+						maxLength = userBigger;
+					} else {
+						int emailBigger = user.getEmail().length();
+						maxLength = emailBigger;
+					}
+					String bar = "_".repeat(maxLength*2);
+					String idInfo = "ID: " + user.getId();
+		            String nameInfo = "Nome: " + user.getUsername();
+		            String emailInfo = "Email: " + user.getEmail();
+		            String bar2 = "_".repeat(maxLength*2);
+		            
+		            listModel.addElement(bar);
+		            listModel.addElement(idInfo);
+		            listModel.addElement(nameInfo);
+		            listModel.addElement(emailInfo);
+		            listModel.addElement(bar2);
+		            listModel.addElement("");
 				}
 			}
 		};
@@ -150,7 +160,7 @@ public class Home {
         userList.setBackground(Color.decode("#1C2034"));
         userList.setForeground(Color.WHITE);
         userList.setFont(new Font("Roboto", Font.BOLD, 14));
-        userList.setToolTipText("html");
+
         
         JScrollPane scrollPane = new JScrollPane(userList);
         scrollPane.setBounds(26, 150, 300, 500);
@@ -168,14 +178,26 @@ public class Home {
 					allUsers = DAO.findByEmail(searchInput.getText());
 				}
 				for (User user : allUsers) {
-					String userInfo = 
-						    "<html><hr>" +
-						    	 "ID: " + user.getId() + "<br>" +
-						    	 "Nome: " + user.getUsername() + "<br>" +
-						    	 "Email: " + user.getEmail() + "<br>" +
-						    "<hr></html>";
-					
-					listModel.addElement(userInfo);
+					int maxLength;
+					if (user.getUsername().length() > user.getEmail().length()) {
+						int userBigger = user.getUsername().length();
+						maxLength = userBigger;
+					} else {
+						int emailBigger = user.getEmail().length();
+						maxLength = emailBigger;
+					}
+					String bar = "_".repeat(maxLength);
+					String idInfo = "ID: " + user.getId();
+		            String nameInfo = "Nome: " + user.getUsername();
+		            String emailInfo = "Email: " + user.getEmail();
+		            String bar2 = "_".repeat(maxLength);
+		            
+		            listModel.addElement(bar);
+		            listModel.addElement(idInfo);
+		            listModel.addElement(nameInfo);
+		            listModel.addElement(emailInfo);
+		            listModel.addElement(bar2);
+		            listModel.addElement("");
 				}
 			}
 		};

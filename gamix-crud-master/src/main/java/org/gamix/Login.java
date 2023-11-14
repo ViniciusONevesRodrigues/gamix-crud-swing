@@ -22,8 +22,7 @@ public class Login  {
         this.registerInstance = registerInstance;
         this.homeInstance = homeInstance;
     }
-    
-	
+
 	public JLabel logoGamix() {
 		ImageIcon imageIcon = new ImageIcon("./resources/android-chrome-150x150.png"); 
         logoGamix = new JLabel(imageIcon);
@@ -77,6 +76,7 @@ public class Login  {
 				User loggedInUser = DAO.login(usernameOrEmailField.getText(), new String(passwordField.getPassword()));
 				if (loggedInUser != null) {
 					homeInstance.homeScreen(DAO);
+					loginScreen.setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Login falhou. Verifique suas credenciais.");
 				}
