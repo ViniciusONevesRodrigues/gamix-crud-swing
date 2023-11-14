@@ -157,8 +157,10 @@ public class Register {
 		
 		MouseAdapter listener = new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				loginInstance.loginScreen(DAO);
-				registerScreen.setVisible(false);
+				if (e.getButton()==1) {
+					loginInstance.loginScreen(DAO);
+					registerScreen.setVisible(false);
+				}
 			}
 		};
 		redirectLogin.addMouseListener(listener);

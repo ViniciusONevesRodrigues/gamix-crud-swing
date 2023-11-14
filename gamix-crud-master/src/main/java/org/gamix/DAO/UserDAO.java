@@ -12,7 +12,6 @@ public class UserDAO {
     private static int idCount = 1;
     private User logedInUser;
     
-    
     public User teste() {
         User userTest = new User();
         userTest.setId(1); 
@@ -184,6 +183,9 @@ public class UserDAO {
             System.out.print("\n");
             return false;
         }
+    }
+    public User getLogedInUser() {
+    	return this.logedInUser;
     }
 }
 

@@ -91,9 +91,11 @@ public class Login  {
 	    redirectRegister.setBounds(130, 700, 200, 33);
 
 	    MouseAdapter listener = new MouseAdapter() {
-	        public void mouseClicked(MouseEvent evt) {
-	        	registerInstance.registerScreen(DAO);
-	            loginScreen.setVisible(false);
+	        public void mouseClicked(MouseEvent e) {
+	        	if (e.getButton()==1) {
+		        	registerInstance.registerScreen(DAO);
+		            loginScreen.setVisible(false);
+	        	}
 	        }
 	    };
 	    

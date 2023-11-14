@@ -12,7 +12,7 @@ public class Main {
     	
     	register.setRegister(login);
     	home.setHome(login, profile);
-//    	
+  	
 //    	login.loginScreen(DAO);
     	home.homeScreen(DAO);
     }	

@@ -44,13 +44,15 @@ public class Home {
 		logout = new JLabel(resizeIcon("./resources/logout.png", 24, 24));
 		logout.setBounds(120, 715, 0, 0);
 		nav.setBounds(0, 715, 360, 50);
-		nav.setBackground(Color.decode("#4B6A8D"));
+		nav.setBackground(Color.decode("#68589D"));
 		nav.setFloatable(false);
 		
 		MouseAdapter Ulistener = new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				uProfileInstance.uProfileScreen();
-				homeScreen.setVisible(false);
+				if (e.getButton()==1) {
+					uProfileInstance.uProfileScreen(DAO);
+					homeScreen.setVisible(false);
+				}
 			}
 		};
 		
@@ -58,18 +60,20 @@ public class Home {
 		
 		MouseAdapter Llistener = new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				loginInstance.loginScreen(DAO);
-				homeScreen.setVisible(false);
+				if (e.getButton()==1) {
+					loginInstance.loginScreen(DAO);
+					homeScreen.setVisible(false);
+				}
 			}
 		};
 		
 		logout.addMouseListener(Llistener);
 		
-		
+		nav.add(Box.createRigidArea(new Dimension(20, 0)));
 		nav.add(mGlasses);
 		nav.add(Box.createRigidArea(new Dimension(120, 0)));
 		nav.add(iUser);
-		nav.add(Box.createRigidArea(new Dimension(120, 0)));
+		nav.add(Box.createRigidArea(new Dimension(100, 0)));
 		nav.add(logout);
 		
 		return nav;
@@ -84,7 +88,9 @@ public class Home {
 		
 		MouseAdapter listener = new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				searchInput.setText("");
+				if (e.getButton()==1) {
+					searchInput.setText("");
+				}
 			}
 		};
 		searchInput.addMouseListener(listener);
@@ -153,6 +159,8 @@ public class Home {
         ActionListener listener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listModel.clear();
+				
+			
 				List<User> allUsers;
 				if (!searchInput.getText().contains("@")) {
 					allUsers = DAO.findByUsername(searchInput.getText());
