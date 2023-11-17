@@ -1,4 +1,4 @@
-# Gamix - CRUD com Swing e Java
+# Gamix - CRUD com Swing
 
 ## Funcionalidades Principais
 
@@ -20,7 +20,7 @@
 ## Como Executar o Projeto
 
 1. Certifique-se de ter o Java instalado em sua máquina.
-2. Clone este repositório: `git clone https://github.com/seu-usuario/gamix.git`ou baixe o .zip.
+2. Clone este repositório: `git clone https://github.com/seu-usuario/gamix.git](https://github.com/ViniciusONevesRodrigues/gamix-crud-swing.git` ou baixe o .zip.
 3. Abra o projeto em sua IDE Java preferida.
 5. Execute o aplicativo.
 
