@@ -13,13 +13,21 @@ public class Register {
 	
 	private Login loginInstance;
 	private JFrame registerScreen;
-	private JLabel logoGamix, registerTitle, usernameLabel, emailLabel, passwordLabel, redirectLogin;
+	private JLabel logoGamix, registerTitle, usernameLabel, emailLabel, passwordLabel, redirectLogin, cPasswordLabel,eyesImage;
 	private JTextField usernameField, emailField;
-	private JPasswordField passwordField;
+	private JPasswordField passwordField, cPasswordField;
 	private JButton registerButton;
+	boolean show = false;
 		
 	public void setRegister(Login login) {
 	    this.loginInstance = login;
+	}
+	
+	public ImageIcon resizeIcon(String imagePath, int width, int height) {
+	    ImageIcon originalIcon = new ImageIcon(imagePath);
+	    Image image = originalIcon.getImage();
+	    Image newimg = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+	    return new ImageIcon(newimg);
 	}
 	
 	public JLabel logoGamix() {
@@ -55,11 +63,17 @@ public class Register {
 		passwordLabel.setBounds(26, 440, 200, 33);
 		return passwordLabel;
 	}
+	public JLabel cPasswordLabel() {
+		cPasswordLabel = new JLabel("Confirmação da senha");
+		cPasswordLabel.setForeground(Color.white);
+		cPasswordLabel.setBounds(26, 520, 200, 33);
+		return cPasswordLabel;
+	}
 	public JTextField usernameField() {
 		usernameField = new JTextField(20);
 		usernameField.setBackground(Color.decode("#333333"));
 		usernameField.setForeground(Color.white);
-		usernameField.setBounds(26, 310, 307, 36);
+		usernameField.setBounds(26, 310, 290, 36);
 		usernameField.setCaretColor(Color.WHITE);
 		return usernameField;
 	}
@@ -67,7 +81,7 @@ public class Register {
 		emailField = new JTextField(20);
 		emailField.setBackground(Color.decode("#333333"));
 		emailField.setForeground(Color.white);
-		emailField.setBounds(26, 390, 307, 36);
+		emailField.setBounds(26, 390, 290, 36);
 		emailField.setCaretColor(Color.WHITE);
 		return emailField;
 	}
@@ -75,14 +89,22 @@ public class Register {
 		passwordField = new JPasswordField(20);
 		passwordField.setBackground(Color.decode("#333333"));
 		passwordField.setForeground(Color.white);
-		passwordField.setBounds(26, 470, 307, 36);
+		passwordField.setBounds(26, 470, 290, 36);
 		passwordField.setCaretColor(Color.WHITE);
 		return passwordField;
+	}
+	public JPasswordField cPasswordField() {
+		cPasswordField = new JPasswordField(20);
+		cPasswordField.setBackground(Color.decode("#333333"));
+		cPasswordField.setForeground(Color.white);
+		cPasswordField.setBounds(26, 550, 290, 36);
+		cPasswordField.setCaretColor(Color.WHITE);
+		return cPasswordField;
 	}
 	
 	public JButton registerButton(UserDAO DAO) {
 		registerButton = new JButton("Registrar-se");
-		registerButton.setBounds(26,627,307,47);
+		registerButton.setBounds(26,627,290,47);
 		registerButton.setBackground(Color.decode("#68589D"));
 		registerButton.setForeground(Color.white);
 
@@ -131,15 +153,27 @@ public class Register {
 	            }
 
 	            user.setPasswordUser(passwordUser);
+	            
+	            if (isValid) {
+	                String enteredPassword = new String(passwordField.getPassword());
+	                String confirmedPassword = new String(cPasswordField.getPassword());
+
+	                if (!enteredPassword.equals(confirmedPassword)) {
+	                    isValid = false;
+	                    JOptionPane.showMessageDialog(null, "As senhas fornecidas não coincidem.");
+	                }
+	            }
+
 
 	            if (isValid) {
 	                int insertFeedback = DAO.insertUser(user);
-	                usernameField.setText("");
-	                emailField.setText("");
-	                passwordField.setText("");
 	                switch (insertFeedback) {
 	                case 0:
 	                	JOptionPane.showMessageDialog(null, "Cadastro completo com sucesso.");
+		                usernameField.setText("");
+		                emailField.setText("");
+		                passwordField.setText("");
+		                cPasswordField.setText("");
 	                	break;
 	                case 1:
 	                	JOptionPane.showMessageDialog(null, "Limite de usuários atingido. Não é possível cadastrar mais usuários.");
@@ -171,6 +205,26 @@ public class Register {
 		redirectLogin.addMouseListener(listener);
 		return redirectLogin;
 	}
+	
+	public JLabel eyesImage() {
+		eyesImage = new JLabel(resizeIcon("./resources/eyes.png", 24, 24));
+		eyesImage.setBounds(320, 475, 24, 24);
+		
+		MouseAdapter listener = new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (show == false) {
+                    passwordField.setEchoChar((char) 0);
+                    show = true;
+                } else {
+                    passwordField.setEchoChar('•'); 
+                    show = false;
+                }
+			}
+		};
+		
+		eyesImage.addMouseListener(listener);
+		return eyesImage;
+	}
 
 	
 	public void registerScreen(UserDAO DAO) {
@@ -192,6 +246,9 @@ public class Register {
 		registerScreen.getContentPane().add(emailField());
 		registerScreen.getContentPane().add(passwordLabel());
 		registerScreen.getContentPane().add(passwordField());
+		registerScreen.getContentPane().add(cPasswordLabel());
+		registerScreen.getContentPane().add(cPasswordField());
+		registerScreen.getContentPane().add(eyesImage());
 		registerScreen.getContentPane().add(registerButton(DAO));
 		registerScreen.getContentPane().add(redirectLogin(DAO));
 	    		

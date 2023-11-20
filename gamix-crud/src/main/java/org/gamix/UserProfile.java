@@ -80,7 +80,7 @@ public class UserProfile {
 		} else {
 			userImage = new JLabel(resizeIcon(DAO.getLogedInUser().getIcon(), 100, 100));
 		}
-		userImage.setBounds(70, 120, 100, 100);
+		userImage.setBounds(120, 120, 100, 100);
 		userImage.setHorizontalAlignment(SwingConstants.CENTER);
 			
 		MouseAdapter listener = new MouseAdapter(){
@@ -168,9 +168,12 @@ public class UserProfile {
 		
 		ActionListener listener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO.deleteAccount();
-				loginInstance.loginScreen(DAO);
-				uProfileScreen.setVisible(false);
+				int resultado = JOptionPane.showConfirmDialog(deleteButton, "Deseja mesmo deletar a conta?","Confirmação", JOptionPane.YES_NO_OPTION);
+				if (resultado == JOptionPane.YES_OPTION) {
+					DAO.deleteAccount();
+					loginInstance.loginScreen(DAO);
+					uProfileScreen.setVisible(false);
+				}
 			}
 		};
 		
