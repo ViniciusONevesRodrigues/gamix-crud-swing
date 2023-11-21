@@ -174,6 +174,8 @@ public class Register {
 		                emailField.setText("");
 		                passwordField.setText("");
 		                cPasswordField.setText("");
+						loginInstance.loginScreen(DAO);
+		                registerScreen.setVisible(false);
 	                	break;
 	                case 1:
 	                	JOptionPane.showMessageDialog(null, "Limite de usuários atingido. Não é possível cadastrar mais usuários.");
@@ -212,13 +214,15 @@ public class Register {
 		
 		MouseAdapter listener = new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (show == false) {
-                    passwordField.setEchoChar((char) 0);
-                    show = true;
-                } else {
-                    passwordField.setEchoChar('•'); 
-                    show = false;
-                }
+				if (e.getButton()==1) {
+					if (show == false) {
+						passwordField.setEchoChar((char) 0);
+						show = true;
+					} else {
+						passwordField.setEchoChar('•'); 
+						show = false;
+					}
+				}
 			}
 		};
 		
